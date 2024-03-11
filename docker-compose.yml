@@ -1,0 +1,84 @@
+version: '3'
+services:
+  password_share:
+    image: pglombardo/pwpush:release
+    ports:
+      - '3009:5100'
+    container_name: password_soln
+    environment:
+      DATABASE_URL: postgres://passwordpusher_user:passwordpusher_passwd@postgres:5432/passwordpusher_db
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: passwordpusher_user
+      POSTGRES_PASSWORD: passwordpusher_passwd
+      POSTGRES_DB: passwordpusher_db
+  flatnotes:
+      container_name: flatnotes
+      image: dullage/flatnotes:latest
+      environment:
+        PUID: 1000
+        PGID: 1000
+        FLATNOTES_AUTH_TYPE: "password"
+        FLATNOTES_USERNAME: "<<your-username>>"
+        FLATNOTES_PASSWORD: "<<your-password"
+        FLATNOTES_SECRET_KEY: "<<STRING THAT IS RANDOM>>"
+      volumes:
+        - "./flatnotes/data:/data"
+        - "./flatnotes/index:/data/.flatnotes"
+      ports:
+        - "3001:8080"
+      restart: unless-stopped
+  stackedit:
+    image: qmcgaw/stackedit
+    container_name: stackedit
+    environment:
+      - LISTENING_PORT=8000
+      - ROOT_URL=/
+      - USER_BUCKET_NAME=stackedit-users
+    ports:
+      - 3002:8000/tcp
+    network_mode: bridge
+    restart: always
+  drawio:
+    image: jgraph/drawio
+    container_name: drawio
+    ports:
+      - "3003:8080"
+    restart: unless-stopped
+  actual_server:
+    image: docker.io/actualbudget/actual-server:latest
+    ports:
+      - '3004:5006'
+    environment:
+      - ACTUAL_UPLOAD_FILE_SYNC_SIZE_LIMIT_MB=20
+      - ACTUAL_UPLOAD_SYNC_ENCRYPTED_FILE_SYNC_SIZE_LIMIT_MB=50
+      - ACTUAL_UPLOAD_FILE_SIZE_LIMIT_MB=20
+    volumes:
+      - ./actual-data:/data
+    restart: unless-stopped
+  excalidraw:
+    image: excalidraw/excalidraw:latest
+    restart: always
+    container_name: excalidraw
+    ports:
+      - '3005:80'
+  string_is:
+    image: daveperrett/string-is:latest
+    ports:
+      - '3006:3000'
+  heimdall:
+    image: linuxserver/heimdall
+    container_name: heimdall
+    volumes:
+     - ./heimdall/:/config
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Kolkata
+    ports:
+      - 3010:80
+      - 3011:443
+    restart: unless-stopped
