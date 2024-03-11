@@ -1,0 +1,21 @@
+server {
+    listen 80;
+    server_name sample.domain.tld;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name sample.domain.tld;
+
+    ssl_certificate /etc/letsencrypt/live/sample.domain.tld/fullchain.pem; # manage>
+    ssl_certificate_key /etc/letsencrypt/live/sample.domain.tld/privkey.pem; # man
+    location / {
+        proxy_pass http://localhost:{application_port};
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
