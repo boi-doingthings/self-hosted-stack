@@ -1,8 +1,13 @@
 # Self-Hosted Stack
+[![Visit Website](https://img.shields.io/badge/Visit-Website-green.svg)](https://heimdall.hsay.in)
 
 This project is a collection of self-hosted applications that I use on a daily basis. These applications are hosted on a small server and can be accessed via my own domain. The stack includes a variety of tools for note-taking, budget tracking, diagram creation, and more.
 
-![Architecture](image.png)
+<p align="center">
+  <img src="image.png" alt="Architecture" width="400">
+</p>
+
+
 
 ## Application List
 
