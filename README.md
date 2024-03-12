@@ -7,8 +7,6 @@ This project is a collection of self-hosted applications that I use on a daily b
   <img src="image.png" alt="Architecture" width="400">
 </p>
 
-
-
 ## Application List
 
 - **StackEdit:** A multi-functional markdown editor.
