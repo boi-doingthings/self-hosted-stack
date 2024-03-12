@@ -1,25 +1,63 @@
-# self-hosted-stack
-A set of applications I use almost daily, hosted over my own small server.
+# Self-Hosted Stack
+
+This project is a collection of self-hosted applications that I use on a daily basis. These applications are hosted on a small server and can be accessed via my own domain. The stack includes a variety of tools for note-taking, budget tracking, diagram creation, and more.
+
 ![Architecture](image.png)
 
-## Application List:  
-* StackEdit : An multi-functional markdown editor.
-* flatnotes : A minimal editor to save day to day notes.
-* drawio : Generate flowcharts and schematics.
-* actual budget : Track my budget.
-* excalidraw : A whiteboard with hand-written feel.
-* pwpush : Generate and share passwords.
-* string-is : String manipulation functionalites.
-* Heimdall : A front-page to access all those apps easily.
+## Application List
 
+- **StackEdit:** A multi-functional markdown editor.
+- **Flatnotes:** A minimal editor for day-to-day notes.
+- **Draw.io:** A tool for generating flowcharts and schematics.
+- **Actual Budget:** An application for tracking my budget.
+- **Excalidraw:** A whiteboard tool with a hand-written feel.
+- **PwPush:** A tool for generating and sharing passwords.
+- **String-Is:** A utility for string manipulation functionalities.
+- **Heimdall:** A front-page application for easy access to all the apps.
 
-## Installation Guide:
-1. Install docker and docker-compose on your server/machine.
-2. Clone this repo and move into it.
-3. Make changes in the docker file (mainly credentials, volumne mounts etc.)
-4. Run the following command: `docker compose up -d`
+## Installation Guide
 
-## (Optional) Host on a GCP server.
-I am trying to run the whole suite over a minimal GCP server, with the applications visible over a nginx reverse proxy. Each app will be visible at its own subdomain, in order to avoid proxy path issues.
-All you need is to create nginx conf files for each app as per the sample file and issue SSL certificates.
-If using Nginx, use the following commands:
+1. **Install Docker and Docker-Compose:**
+   - Ensure that Docker and Docker-Compose are installed on your server or machine.
+
+2. **Clone the Repository:**
+   - Clone this repository and navigate into the project directory.
+     ```bash
+     git clone https://github.com/your-username/self-hosted-stack.git
+     cd self-hosted-stack
+     ```
+
+3. **Configure the Docker File:**
+   - Make necessary changes in the Docker file, such as credentials, volume mounts, etc.
+
+4. **Start the Applications:**
+   - Run the following command to start all the applications in detached mode:
+     ```bash
+     docker-compose up -d
+     ```
+
+## Hosting on a GCP Server (Optional)
+
+If you want to host the entire suite on a minimal Google Cloud Platform (GCP) server with the applications accessible through an Nginx reverse proxy, follow these steps:
+
+1. **Create Nginx Configuration Files:**
+   - For each application, create configuration files in `/etc/nginx/sites-available/` with the format `sample.domain.tld`.
+
+2. **Create Symlinks:**
+   - Create symbolic links for each configuration file to the `/etc/nginx/sites-enabled/` directory.
+     ```bash
+     sudo ln -s /etc/nginx/sites-available/sample.domain.tld /etc/nginx/sites-enabled/
+     ```
+
+3. **Restart Nginx:**
+   - Restart the Nginx service to apply the changes.
+     ```bash
+     sudo systemctl restart nginx
+     ```
+
+4. **Issue SSL Certificates:**
+   - Obtain SSL certificates for your domain to ensure secure connections.
+
+## Conclusion
+
+This self-hosted stack provides a convenient way to access and manage personal applications on your own server. Feel free to customize and expand the stack based on your needs.
